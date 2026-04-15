@@ -1,0 +1,84 @@
+<?php
+$transactions = [
+    ["amount" => 1200, "type" => "in",  "date" => "2026-04-01"],
+    ["amount" => 350,  "type" => "out", "date" => "2026-04-02"],
+    ["amount" => 700,  "type" => "out", "date" => "2026-04-03"],
+    ["amount" => 2000, "type" => "in",  "date" => "2026-04-04"],
+    ["amount" => 150,  "type" => "out", "date" => "2026-04-05"],
+    ["amount" => 500,  "type" => "out", "date" => "2026-04-06"],
+    ["amount" => 800,  "type" => "in",  "date" => "2026-04-07"],
+    ["amount" => 250,  "type" => "out", "date" => "2026-04-08"]
+];
+
+function calculateTotal($transactions, $filter) {
+    $filteredTransactions = array_filter($transactions, $filter);
+
+    $total = 0;
+
+    foreach ($filteredTransactions as $transaction) {
+        $total += $transaction["amount"];
+    }
+
+    return [
+        "filtered" => $filteredTransactions,
+        "total" => $total
+    ];
+}
+
+function isOutgoing($transaction) {
+    return $transaction["type"] === "out";
+}
+
+$result = calculateTotal($transactions, "isOutgoing");
+
+$outgoingTransactions = $result["filtered"];
+$totalOutgoing = $result["total"];
+?>
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Варіант 4</title>
+    <style>
+table {
+            border-collapse: collapse;
+            width: 70%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Вихідні транзакції</h2>
+
+<table>
+    <tr>
+        <th>№</th>
+        <th>Сума</th>
+        <th>Тип</th>
+        <th>Дата</th>
+    </tr>
+
+    <?php foreach ($outgoingTransactions as $index => $transaction): ?>
+        <tr>
+            <td><?php echo $index + 1; ?></td>
+            <td><?php echo $transaction["amount"]; ?> грн</td>
+            <td><?php echo $transaction["type"]; ?></td>
+            <td><?php echo $transaction["date"]; ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+<h3>Загальна сума витрат: <?php echo $totalOutgoing; ?> грн</h3>
+
+</body>
+</html>
