@@ -1,0 +1,76 @@
+<?php
+$users = [
+    ["name" => "Іван", "age" => 17, "email" => "ivan@example.com"],
+    ["name" => "Олександр", "age" => 22, "email" => "oleksandr@example.com"],
+    ["name" => "Марія", "age" => 19, "email" => "maria@example.com"],
+    ["name" => "Анна", "age" => 16, "email" => "anna@example.com"],
+    ["name" => "Петро", "age" => 25, "email" => "petro@example.com"],
+    ["name" => "Дмитро", "age" => 18, "email" => "dmytro@example.com"],
+    ["name" => "Софія", "age" => 20, "email" => "sofia@example.com"],
+    ["name" => "Максим", "age" => 15, "email" => "maksym@example.com"],
+    ["name" => "Юлія", "age" => 21, "email" => "yulia@example.com"],
+    ["name" => "Володимир", "age" => 30, "email" => "volodymyr@example.com"]
+];
+
+function filterAdults($user) {
+    return $user["age"] >= 18;
+}
+
+function compareByNameLength($a, $b) {
+    return strlen($a["name"]) - strlen($b["name"]);
+}
+
+$adultUsers = array_filter($users, "filterAdults");
+
+$adultUsers = array_values($adultUsers);
+
+usort($adultUsers, "compareByNameLength");
+?>
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Варіант 1</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Повнолітні користувачі, відсортовані за довжиною імені</h2>
+
+<table>
+    <tr>
+        <th>№</th>
+        <th>Ім’я</th>
+        <th>Вік</th>
+        <th>Email</th>
+        <th>Довжина імені</th>
+    </tr>
+
+    <?php foreach ($adultUsers as $index => $user): ?>
+        <tr>
+            <td><?php echo $index + 1; ?></td>
+            <td><?php echo $user["name"]; ?></td>
+            <td><?php echo $user["age"]; ?></td>
+            <td><?php echo $user["email"]; ?></td>
+            <td><?php echo strlen($user["name"]); ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+</body>
+</html>
